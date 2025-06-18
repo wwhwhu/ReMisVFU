@@ -96,6 +96,8 @@ def rmu_unlearn(
             x_r = x_r.to(device)
             fmap2 = M_updated.client_list[forget_party_idx[0]].part(x_r)
             h_u2 = fmap2.view(fmap2.size(0), -1)
+
+            
             with torch.no_grad():
                 fmap_ref = M_frozen.client_list[forget_party_idx[0]].part(x_r)
                 h_ref = fmap_ref.view(fmap_ref.size(0), -1)
@@ -113,12 +115,13 @@ def rmu_unlearn(
         print(f"[RMU Epoch {epoch+1}/{num_unlearn_epochs}] "
               f"ForgetLoss={total_f/steps:.4f}, RetainLoss={total_r/steps:.4f}")
         if save_path is not None:
+            save_path2 = save_path + f"rmu_epoch_{epoch+1}.pth"
             ckpt = {
                 "model": M_updated.state_dict(),
                 "client_opts": [opt.state_dict() for opt in splitnn.client_opt_list],
                 "server_opt":  splitnn.server_opt.state_dict(),
                 "epoch": epoch
             }
-            torch.save(ckpt, save_path)
-            print(f"Model saved to {save_path}")
+            torch.save(ckpt, save_path2)
+            print(f"Model saved to {save_path2}")
     return M_updated

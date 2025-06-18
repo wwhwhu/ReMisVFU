@@ -22,7 +22,7 @@ if __name__ == "__main__":
     lr = 1e-3
 
     dataset_list = ["MNIST", "FashionMNIST", "SVHN", "CIFAR10", "CIFAR100"]
-    dataset_name_index = 4
+    dataset_name_index = 0
     dataset_name = dataset_list[dataset_name_index]
     # Device configuration
     device = torch.device(f"cuda:{dataset_name_index % 4}" if torch.cuda.is_available() else "cpu")
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     poison_fraction = 0.1    # 每个 batch 中毒比例
     target_label = 5         # 后门触发时的目标标签
     trigger_value = 1.0      # 触发器像素值（最亮白）
-    trigger_size = 4         # 触发器大小 4*4
+    trigger_size = 2         # 触发器大小 4*4
     target_party = 1         # 对 Party1 注入后门
 
     for epoch in range(1, epochs + 1):
