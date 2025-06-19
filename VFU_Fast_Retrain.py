@@ -172,7 +172,7 @@ for ep in range(epoch):
     # ---- eval & log (same as your original) ----
     train_acc   = vfl_eval(trainloaders, splitnn, device)
     test_acc    = vfl_eval(testloaders,  splitnn, device)
-    backdoor_acc= compute_backdoor_rate(splitnn, testloaders_all,
+    backdoor_acc= compute_backdoor_rate(splitnn, testloaders,
                                         target_party, trigger_value,
                                         trigger_size, target_label, device)
     phase = 'RAdam' if ep < switch_epoch else 'SGDM'
