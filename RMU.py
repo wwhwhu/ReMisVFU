@@ -24,7 +24,7 @@ if __name__ == "__main__":
     # 超参数
     forget_party_idx = [1]  # 要遗忘的 Party 序号（0 ~ num_parties-1）
     dataset_list = ["MNIST", "FashionMNIST", "SVHN", "CIFAR10", "CIFAR100"]
-    dataset_name_index = 0
+    dataset_name_index = 4
     dataset_name = dataset_list[dataset_name_index]
     # Device configuration
     device = torch.device(f"cuda:{dataset_name_index % 4}" if torch.cuda.is_available() else "cpu")
@@ -57,7 +57,7 @@ if __name__ == "__main__":
         device=device,
         c=2.0,
         alpha=0.001,
-        num_unlearn_epochs=5,
+        num_unlearn_epochs=20,
         testloaders=testloaders_all,
         save_path=f"./res/{dataset_name}/un/"
     )

@@ -18,11 +18,11 @@ if __name__ == "__main__":
     
     # 超参数
     num_parties = 3
-    epochs = 20
+    epochs = 50
     lr = 1e-3
 
     dataset_list = ["MNIST", "FashionMNIST", "SVHN", "CIFAR10", "CIFAR100"]
-    dataset_name_index = 0
+    dataset_name_index = 4
     dataset_name = dataset_list[dataset_name_index]
     # Device configuration
     device = torch.device(f"cuda:{dataset_name_index % 4}" if torch.cuda.is_available() else "cpu")
