@@ -46,7 +46,7 @@ if __name__ == "__main__":
     poison_fraction = 0.1    # 每个 batch 中毒比例
     target_label = 5         # 后门触发时的目标标签
     trigger_value = 1.0      # 触发器像素值（最亮白）
-    trigger_size = 2         # 触发器大小 4*4
+    trigger_size = 2         # 触发器大小 2*2
     target_party = 1         # 对 Party1 注入后门
 
     for epoch in range(1, epochs + 1):

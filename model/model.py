@@ -36,7 +36,8 @@ class SecondNet(nn.Module):
         if in_dim != 1:
             if client_num == 3:
                 flattened_dim = 3584
-        # flattened_dim = 2560
+            else:
+                flattened_dim = 2560
         self.fc1 = nn.Linear(flattened_dim, 128)
         self.fc2 = nn.Linear(128, output_dim)
 

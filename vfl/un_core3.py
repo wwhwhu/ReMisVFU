@@ -72,7 +72,7 @@ def rmu_unlearn(
     poison_fraction = 0.1    # 每个 batch 中毒比例
     target_label = 5         # 后门触发时的目标标签
     trigger_value = 1.0      # 触发器像素值（最亮白）
-    trigger_size = 4         # 触发器大小 4*4
+    trigger_size = 2         # 触发器大小 2*2
 
     # 2. 推断 d
     sample_feat = None

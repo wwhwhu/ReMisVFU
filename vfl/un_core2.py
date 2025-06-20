@@ -76,7 +76,7 @@ def rmu_unlearn(
             bd = compute_backdoor_rate(M_updated, testloaders,
                                        forget_party_idx[0],
                                        trigger_value=1.0,
-                                       trigger_size=4,
+                                       trigger_size=2,
                                        target_label=5,
                                        device=device)
             print(f"Backdoor Success Rate: {bd:.2f}%")
