@@ -24,7 +24,7 @@ if __name__ == "__main__":
     # 超参数
     forget_party_idx = [1]  # 要遗忘的 Party 序号（0 ~ num_parties-1）
     dataset_list = ["MNIST", "FashionMNIST", "SVHN", "CIFAR10", "CIFAR100"]
-    dataset_name_index = 4
+    dataset_name_index = 2
     dataset_name = dataset_list[dataset_name_index]
     # Device configuration
     device = torch.device(f"cuda:{dataset_name_index % 4}" if torch.cuda.is_available() else "cpu")
@@ -49,6 +49,7 @@ if __name__ == "__main__":
     print(f"保留 Party 的数据集数量: {len(retain_loader_list)}")
     # 执行 RMU 遗忘
     print("\n---- 开始 RMU 遗忘 (Party1) ----")
+    alpha = 1e-3
     M_unlearned = rmu_unlearn(
         splitnn=splitnn,
         forget_party_idx=forget_party_idx,
@@ -56,10 +57,10 @@ if __name__ == "__main__":
         retain_datasets_list=retain_loader_list,
         device=device,
         c=2.0,
-        alpha=0.001,
+        alpha=alpha,
         num_unlearn_epochs=20,
         testloaders=testloaders_all,
-        save_path=f"./res/{dataset_name}/un/"
+        save_path=f"./res/{dataset_name}/un_alpha_{alpha}/"
     )
     print("---- RMU 遗忘完成 ----")
     

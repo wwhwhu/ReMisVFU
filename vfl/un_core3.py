@@ -1,4 +1,6 @@
 import copy
+import os
+import time
 from typing import List
 from itertools import chain
 
@@ -41,7 +43,9 @@ def rmu_unlearn(
     
     forget_iter = []
     forget_len = len(forget_datasets_list)
-
+    if os.path.exists(save_path) is False:
+        os.makedirs(save_path)
+    save_dir = save_path + "rmu_log.csv"
     # 获取迭代器list
     one_iter = []
     for i in range(forget_len):
@@ -96,9 +100,13 @@ def rmu_unlearn(
 
     optimizer = optim.Adam(filter(lambda p: p.requires_grad, M_updated.parameters()), lr=1e-2)
     M_updated.train()
-
+    # 写入表头到 CSV 文件
+    if save_path is not None:
+        with open(save_dir, 'w') as f:
+            f.write('epoch,forget_loss,retain_loss,total_loss,test_acc,backdoor_success_rate,time\n')
     # 5. RMU 循环
     for epoch in range(num_unlearn_epochs):
+        time_start = time.time()
         if testloaders is not None:
             acc = vfl_eval(testloaders, M_updated, device)
             print(f"Test Acc: {acc:.2f}%")
@@ -179,7 +187,7 @@ def rmu_unlearn(
                     continue
                 g_f_flat = g_f.view(-1)
                 g_r_flat = g_r.view(-1)
-
+                
                 dot_product = torch.dot(g_f_flat, g_r_flat)
 
                 if dot_product < 0:  # 表示 retain 与 forget 冲突
@@ -214,4 +222,9 @@ def rmu_unlearn(
             }
             torch.save(ckpt, save_path2)
             print(f"Model saved to {save_path2}")
+        # 写入日志
+        if save_path is not None:
+            with open(save_dir, 'a') as f:
+                f.write(f"{epoch+1},{total_f/len(forget_iter):.4f},{total_r/len(all_iter):.4f},"
+                        f"{loss.item():.4f},{acc:.2f},{bd:.2f},{time.time() - time_start:.2f}\n")
     return M_updated
